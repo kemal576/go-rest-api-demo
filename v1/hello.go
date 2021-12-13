@@ -9,8 +9,8 @@ import (
 	"os"
 	"strconv"
 
-	. "github.com/kemal576/go-rest-api-demo/models"
-	. "github.com/kemal576/go-rest-api-demo/repositories"
+	. "github.com/kemal576/go-rest-api-demo/v1/models"
+	. "github.com/kemal576/go-rest-api-demo/v1/repositories"
 )
 
 func checkError(err error) {

@@ -3,7 +3,7 @@ package repositories
 import (
 	"errors"
 
-	. "github.com/kemal576/go-rest-api-demo/v1/models"
+	. "github.com/kemal576/go-rest-api-demo/v2/models"
 )
 
 type UserRepository struct {
@@ -26,7 +26,6 @@ func (u *UserRepository) Update(_user *User) {
 	for i, user := range u.users {
 		if user.ID == _user.ID {
 			u.users[i] = *_user
-			println("update scope")
 		}
 	}
 }
@@ -63,4 +62,26 @@ func (u *UserRepository) GetById(ID int) (User, error) {
 		}
 	}
 	return *NewUser(0, 0, "", "", "", false), errors.New("kullanıcı bulunamadı")
+}
+
+func (u *UserRepository) GetByUsername(username string) (User, error) {
+	for _, user := range u.users {
+		if user.UserName == username && user.Status {
+			return user, nil
+		}
+	}
+	return *NewUser(0, 0, "", "", "", false), errors.New("kullanıcı bulunamadı")
+}
+
+func (u *UserRepository) GetByAgeFilter(min, max int) ([]User, error) {
+	var filteredUsers []User
+	for _, user := range u.users {
+		if user.Age >= min && user.Age <= max && user.Status {
+			filteredUsers = append(filteredUsers, user)
+		}
+	}
+	if len(filteredUsers) > 0 {
+		return filteredUsers, nil
+	}
+	return filteredUsers, errors.New("kriterlere uyan kullanıcı bulunamadı")
 }
